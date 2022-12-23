@@ -142,7 +142,7 @@ def main(command_line=None):
     if os.path.exists(dotenv_path):
         load_dotenv(dotenv_path)
     if not data_file:
-        data_file = os.environ.get("POEZD_DATA")
+        data_file = os.getenv("POEZD_DATA")
     if not data_file:
         print("The data file name is absent", file=sys.stderr)
         sys.exit(1)
