@@ -9,12 +9,22 @@ from dotenv import load_dotenv
 
 
 def get_poezd(poezd, name, no, time):
+    """
 
+    Добавить данные о поезде
+    
+    """
     poezd.append({"name": name, "no": no, "time": time})
     return poezd
 
 
 def list(poezd):
+    """
+
+    Отобразить список поездов
+    
+    """
+    # проверить, что список поездов не пуст
     if poezd:
         line = "+-{}-+-{}-+-{}-+".format(
             "-" * 10,
@@ -37,6 +47,11 @@ def list(poezd):
 
 
 def select_poezd(poezd, nom):
+    """
+
+    Выбор поездов по номеру
+    
+    """
     rezult = []
     for idx, po in enumerate(poezd, 1):
         if po["no"] == str(nom):
@@ -78,7 +93,7 @@ def main(command_line=None):
 
     subparsers = parser.add_subparsers(dest="command")
 
-    # Создать субпарсер для добавления работника.
+    # Создать субпарсер для добавления поезда.
     add = subparsers.add_parser("add", parents=[file_parser], help="Добавить поезд")
     add.add_argument(
         "-n",
@@ -92,12 +107,12 @@ def main(command_line=None):
         "-t", "--time", action="store", required=True, help="Время отправления?"
     )
 
-    # Создать субпарсер для отображения всех работников.
+    # Создать субпарсер для отображения всех поездов.
     _ = subparsers.add_parser(
         "display", parents=[file_parser], help="Панель отображения поездов"
     )
 
-    # Создать субпарсер для выбора работников.
+    # Создать субпарсер для выбора поездов.
     select = subparsers.add_parser(
         "select", parents=[file_parser], help="Выбор поезда по номеру"
     )
@@ -109,6 +124,9 @@ def main(command_line=None):
         required=True,
         help="Введите номер поезда",
     )
+
+    Help = subparsers.add_parser(
+        "Help", parents=[file_parser])
 
     # Выполнить разбор аргументов командной строки.
     args = parser.parse_args(command_line)
@@ -142,6 +160,9 @@ def main(command_line=None):
     elif args.command == "select":
         selected = select_poezd(poezd, args.nom)
         list(selected)
+
+    elif args.command == "Help":
+        help()
 
     if is_dirty:
         save_poezd(data_file, poezd)
