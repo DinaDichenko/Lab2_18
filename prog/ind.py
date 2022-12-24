@@ -56,7 +56,7 @@ def select_poezd(poezd, nom):
 
 def save_poezd(file_name, poezd):
     """
-    Сохранить всех работников в файл JSON.
+    Сохранить все поезда в файл JSON.
     """
     # Открыть файл с заданным именем для записи.
     with open(file_name, "w", encoding="utf-8") as fout:
@@ -66,6 +66,9 @@ def save_poezd(file_name, poezd):
 
 
 def load_poezd(file_name):
+    """
+    Считать все поезда из файла JSON.
+    """
     with open(file_name, "r", encoding="utf-8") as fin:
         return json.load(fin)
 

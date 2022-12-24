@@ -10,9 +10,7 @@ from dotenv import load_dotenv
 
 def get_poezd(poezd, name, no, time):
     """
-
-    Добавить данные о поезде
-    
+    Добавить данные о поезде   
     """
     poezd.append({"name": name, "no": no, "time": time})
     return poezd
@@ -20,9 +18,7 @@ def get_poezd(poezd, name, no, time):
 
 def list(poezd):
     """
-
     Отобразить список поездов
-    
     """
     # проверить, что список поездов не пуст
     if poezd:
@@ -48,9 +44,7 @@ def list(poezd):
 
 def select_poezd(poezd, nom):
     """
-
     Выбор поездов по номеру
-    
     """
     rezult = []
     for idx, po in enumerate(poezd, 1):
@@ -61,11 +55,17 @@ def select_poezd(poezd, nom):
 
 
 def save_poezd(file_name, poezd):
+    """
+    Сохранить список поездов в json-файл
+    """
     with open(file_name, "w", encoding="utf-8") as fout:
         json.dump(poezd, fout, ensure_ascii=False, indent=4)
 
 
 def load_poezd(file_name):
+    """
+    Считать список поездов из json-файла
+    """
     with open(file_name, "r", encoding="utf-8") as fin:
         return json.load(fin)
 
