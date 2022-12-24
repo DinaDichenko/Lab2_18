@@ -62,34 +62,23 @@ def help():
     print("save - сохранить список поездов;")
     print("load - загрузить список поездов;")
     print("exit - завершить работу с программой.")
-    
+
 
 def main(command_line=None):
     # Создать родительский парсер для определения имени файла.
     file_parser = argparse.ArgumentParser(add_help=False)
-    file_parser.add_argument( "-d",
-        "--data",
-        action="store",
-        required=False,
-        help="Имя файла данных"
+    file_parser.add_argument(
+        "-d", "--data", action="store", required=False, help="Имя файла данных"
     )
 
     # Создать основной парсер командной строки.
     parser = argparse.ArgumentParser("poezd")
-    parser.add_argument(
-        "--version", 
-        action="version", 
-        version="%(prog)s 0.1.0"
-    )
+    parser.add_argument("--version", action="version", version="%(prog)s 0.1.0")
 
     subparsers = parser.add_subparsers(dest="command")
 
     # Создать субпарсер для добавления работника.
-    add = subparsers.add_parser(
-        "add", 
-        parents=[file_parser], 
-        help="Добавить поезд"
-    )
+    add = subparsers.add_parser("add", parents=[file_parser], help="Добавить поезд")
     add.add_argument(
         "-n",
         "--name",
@@ -97,32 +86,19 @@ def main(command_line=None):
         required=True,
         help="Название пункта назначения?",
     )
+    add.add_argument("--no", action="store", type=int, help="Номер поезда?")
     add.add_argument(
-        "--no", 
-        action="store", 
-        type=int, 
-        help="Номер поезда?"
-    )
-    add.add_argument(
-        "-t", 
-        "--time", 
-        action="store", 
-        required=True, 
-        help="Время отправления?"
+        "-t", "--time", action="store", required=True, help="Время отправления?"
     )
 
     # Создать субпарсер для отображения всех работников.
     _ = subparsers.add_parser(
-        "display", 
-        parents=[file_parser], 
-        help="Панель отображения поездов"
+        "display", parents=[file_parser], help="Панель отображения поездов"
     )
 
     # Создать субпарсер для выбора работников.
     select = subparsers.add_parser(
-        "select", 
-        parents=[file_parser], 
-        help="Выбор поезда по номеру"
+        "select", parents=[file_parser], help="Выбор поезда по номеру"
     )
     select.add_argument(
         "-o",
@@ -133,10 +109,10 @@ def main(command_line=None):
         help="Введите номер поезда",
     )
 
-     # Выполнить разбор аргументов командной строки.
+    # Выполнить разбор аргументов командной строки.
     args = parser.parse_args(command_line)
 
-# Получить имя файла.
+    # Получить имя файла.
     data_file = args.data
     if not data_file:
         data_file = os.environ.get("POEZD_DATA")
@@ -152,12 +128,7 @@ def main(command_line=None):
         poezd = []
 
     if args.command == "add":
-        poezd = get_poezd(
-            poezd, 
-            args.name, 
-            args.no, 
-            args.time
-        )
+        poezd = get_poezd(poezd, args.name, args.no, args.time)
         is_dirty = True
 
     # Отобразить всех работников.
